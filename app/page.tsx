@@ -481,8 +481,8 @@ export default function Home() {
           <div
             key={section.id}
             data-section={section.id}
-            className="scroll-section fixed inset-0 flex items-center justify-center px-5 sm:px-8 md:px-16 py-16 sm:py-8 z-[5] opacity-0 overflow-y-auto"
-            style={{ pointerEvents: "none" }}
+            className="scroll-section fixed inset-0 flex items-end sm:items-center justify-center px-5 sm:px-8 md:px-16 pb-24 sm:pb-0 z-[5] opacity-0"
+            style={{ pointerEvents: "none", touchAction: "none" }}
           >
             {section.content}
           </div>
