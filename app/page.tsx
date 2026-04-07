@@ -58,7 +58,7 @@ const SECTIONS: Section[] = [
           tradisjoner i sitt DNA. Norsk langustin med asiatisk teknikk. Arktiske
           råvarer med tropisk instinkt. Presisjon med sjel.
         </p>
-        <div className="flex gap-10 flex-wrap opacity-0 translate-y-4 section-line">
+        <div className="flex gap-6 sm:gap-10 flex-wrap opacity-0 translate-y-4 section-line">
           {[
             { num: "14", label: "Gullmedaljer" },
             { num: "2×", label: "Europamester" },
@@ -89,7 +89,7 @@ const SECTIONS: Section[] = [
         <h2 className="font-[var(--font-heading)] text-[clamp(2rem,5vw,4.5rem)] font-light leading-tight mb-10 opacity-0 translate-y-6 section-line">
           Veien til <em className="italic">Lyon</em>
         </h2>
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {[
             {
               year: "2011",
@@ -124,15 +124,15 @@ const SECTIONS: Section[] = [
           ].map((item) => (
             <div
               key={item.year}
-              className="flex items-baseline gap-6 opacity-0 translate-y-4 section-line"
+              className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6 opacity-0 translate-y-4 section-line"
             >
-              <span className="font-[var(--font-heading)] text-2xl text-[var(--gold)] shrink-0 w-16">
+              <span className="font-[var(--font-heading)] text-xl sm:text-2xl text-[var(--gold)] shrink-0 sm:w-16">
                 {item.year}
               </span>
-              <span className="font-sans text-base text-[var(--text)]/80">
+              <span className="font-sans text-sm sm:text-base text-[var(--text)]/80">
                 {item.title}
               </span>
-              <span className="ml-auto text-xs tracking-[0.15em] uppercase border border-[var(--gold)]/30 text-[var(--gold)] px-3 py-1 rounded-full shrink-0">
+              <span className="sm:ml-auto text-[10px] sm:text-xs tracking-[0.15em] uppercase border border-[var(--gold)]/30 text-[var(--gold)] px-2 sm:px-3 py-0.5 sm:py-1 rounded-full self-start sm:self-auto shrink-0">
                 {item.badge}
               </span>
             </div>
@@ -158,7 +158,7 @@ const SECTIONS: Section[] = [
           utenfor vanlige grenser. Alter Ego fanger den transcendente
           tilstanden. Hans lekeplass. Det lekne og det profesjonelle.
         </p>
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {[
             {
               title: "Restaurant Alter Ego",
@@ -377,7 +377,7 @@ export default function Home() {
           <p className="font-[var(--font-heading)] text-sm tracking-[0.3em] uppercase text-[var(--gold)] mb-6">
             Privat visning
           </p>
-          <h1 className="font-[var(--font-heading)] text-5xl font-light mb-10 text-[var(--text)]">
+          <h1 className="font-[var(--font-heading)] text-4xl sm:text-5xl font-light mb-10 text-[var(--text)]">
             ALTER <em className="italic">EGO</em>
           </h1>
           <div className={`${shake ? "animate-[shake_0.4s_ease-in-out]" : ""}`}>
@@ -411,15 +411,15 @@ export default function Home() {
 
   return (
     <>
-      {/* Custom cursor */}
+      {/* Custom cursor — hidden on touch devices */}
       <div
         ref={cursorRef}
-        className="fixed top-0 left-0 w-10 h-10 rounded-full border border-[var(--gold)]/50 pointer-events-none z-[9999] mix-blend-difference"
+        className="fixed top-0 left-0 w-10 h-10 rounded-full border border-[var(--gold)]/50 pointer-events-none z-[9999] mix-blend-difference hidden md:block"
         style={{ willChange: "transform" }}
       />
       <div
         ref={cursorDotRef}
-        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full bg-[var(--gold)] pointer-events-none z-[9999]"
+        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full bg-[var(--gold)] pointer-events-none z-[9999] hidden md:block"
         style={{ willChange: "transform" }}
       />
 
@@ -439,7 +439,7 @@ export default function Home() {
       {/* Scroll container — 600vh tall */}
       <div ref={containerRef} className="relative z-[2]" style={{ height: "600vh" }}>
         {/* Progress bar */}
-        <div className="fixed top-0 right-6 h-screen w-px bg-[var(--text)]/10 z-[10]">
+        <div className="fixed top-0 right-3 sm:right-6 h-screen w-px bg-[var(--text)]/10 z-[10]">
           <div
             className="w-px bg-[var(--gold)] origin-top transition-none"
             id="progress-bar"
@@ -468,12 +468,20 @@ export default function Home() {
           ))}
         </div>
 
+        {/* Scroll hint — mobile */}
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[10] flex flex-col items-center gap-2 md:hidden scroll-hint">
+          <span className="text-[10px] tracking-[0.2em] uppercase text-[var(--text)]/30 font-sans">
+            Scroll
+          </span>
+          <div className="w-px h-6 bg-[var(--gold)]/30 animate-pulse" />
+        </div>
+
         {/* Content sections — fixed overlay positioning */}
         {SECTIONS.map((section) => (
           <div
             key={section.id}
             data-section={section.id}
-            className="scroll-section fixed inset-0 flex items-center justify-center px-8 md:px-16 z-[5] opacity-0"
+            className="scroll-section fixed inset-0 flex items-center justify-center px-5 sm:px-8 md:px-16 py-16 sm:py-8 z-[5] opacity-0 overflow-y-auto"
             style={{ pointerEvents: "none" }}
           >
             {section.content}
