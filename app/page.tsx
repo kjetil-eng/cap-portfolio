@@ -231,6 +231,9 @@ const SECTIONS: Section[] = [
           <p className="font-[var(--font-heading)] text-sm tracking-[0.4em] uppercase text-[var(--gold)]/40">
             Winners never quit
           </p>
+          <p className="font-[var(--font-heading)] text-sm tracking-[0.4em] uppercase text-[var(--gold)]/70 mt-2">
+            Last Dance
+          </p>
         </div>
       </div>
     ),
