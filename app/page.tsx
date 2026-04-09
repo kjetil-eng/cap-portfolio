@@ -621,7 +621,9 @@ export default function Home() {
           <div
             key={section.id}
             data-section={section.id}
-            className="scroll-section fixed inset-0 flex items-center justify-center px-6 sm:px-10 md:px-20 pt-[46px] pb-[46px] sm:pt-[56px] sm:pb-[56px] z-[5] opacity-0"
+            className={`scroll-section fixed inset-0 flex justify-center px-6 sm:px-10 md:px-20 pt-[46px] pb-[46px] sm:pt-[56px] sm:pb-[56px] z-[5] opacity-0 ${
+              section.id.startsWith("merits") ? "items-start overflow-y-auto pt-[60px] sm:pt-[72px]" : "items-center"
+            }`}
             style={{ pointerEvents: "none", willChange: "transform, opacity" }}
           >
             {section.content}
