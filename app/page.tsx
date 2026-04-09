@@ -479,12 +479,29 @@ export default function Home() {
     }
   };
 
-  /* Force autoplay on mobile — iOS needs explicit .play() call */
+  /* Force autoplay on mobile — iOS needs user interaction first */
   const loginVideoRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
-    if (!unlocked && loginVideoRef.current) {
-      loginVideoRef.current.play().catch(() => {});
-    }
+    if (unlocked) return;
+    const video = loginVideoRef.current;
+    if (!video) return;
+
+    // Try immediate play
+    video.play().catch(() => {});
+
+    // Fallback: play on first user interaction (required by iOS)
+    const playOnInteraction = () => {
+      video.play().catch(() => {});
+      document.removeEventListener("touchstart", playOnInteraction);
+      document.removeEventListener("click", playOnInteraction);
+    };
+    document.addEventListener("touchstart", playOnInteraction, { once: true });
+    document.addEventListener("click", playOnInteraction, { once: true });
+
+    return () => {
+      document.removeEventListener("touchstart", playOnInteraction);
+      document.removeEventListener("click", playOnInteraction);
+    };
   }, [unlocked]);
 
   /* ─── Login ─── */
