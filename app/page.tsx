@@ -99,7 +99,7 @@ const SECTIONS: Section[] = [
     content: (
       <div className="text-center">
         {/* #2 Gold shimmer */}
-        <h1 className="font-[var(--font-heading)] text-[clamp(3.5rem,12vw,10rem)] font-light leading-[0.85] tracking-tight opacity-0 translate-y-6 section-line shimmer-text">
+        <h1 className="font-[var(--font-heading)] text-[clamp(3.5rem,12vw,10rem)] font-light leading-[0.85] tracking-tight opacity-0 translate-y-6 section-line ">
           Mr.
           <br />
           <em className="font-normal italic">CAP</em>
@@ -475,7 +475,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg)] via-transparent to-[var(--bg)]" />
           <form onSubmit={handleSubmit} className="text-center relative z-10">
             <p className="font-sans text-[11px] tracking-[0.4em] uppercase text-[var(--gold)]/60 mb-8 fade-up">Private viewing</p>
-            <h1 className="font-[var(--font-heading)] text-5xl sm:text-7xl font-light text-[var(--text)] fade-up-delay-1 shimmer-text">Mr. <em className="italic">CAP</em></h1>
+            <h1 className="font-[var(--font-heading)] text-5xl sm:text-7xl font-light text-[var(--text)] fade-up-delay-1 ">Mr. <em className="italic">CAP</em></h1>
             <div className="w-16 h-px bg-[var(--gold)]/40 mx-auto my-8 line-draw" />
             <div className={`fade-up-delay-2 ${shake ? "animate-[shake_0.4s_ease-in-out]" : ""}`}>
               <input type="password" value={pwInput} onChange={(e) => setPwInput(e.target.value)} placeholder="Password" autoFocus className="bg-transparent border-b border-[var(--gold)]/20 text-center text-[var(--text)] font-sans text-lg py-3 px-6 outline-none focus:border-[var(--gold)]/60 transition-colors w-64 placeholder:text-[var(--text)]/15" />
