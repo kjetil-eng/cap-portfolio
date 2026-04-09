@@ -3,11 +3,107 @@
 import { useEffect, useRef, useCallback, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import CvPdfGenerator from "./cv-pdf";
 
 gsap.registerPlugin(ScrollTrigger);
 
+/* ─── Merit data ─── */
+interface Merit {
+  year: string;
+  medal: "Gold" | "Silver" | "Bronze" | "Selected" | "Qualified";
+  title: string;
+}
+
+const MERITS_RISE: Merit[] = [
+  { year: "2007", medal: "Gold", title: "Norwegian Chef Association National Apprentice Championship" },
+  { year: "2008", medal: "Gold", title: "Norwegian Chef Association National Apprentice Championship" },
+  { year: "2008", medal: "Silver", title: "Nordic Apprentice Championship" },
+  { year: "2009", medal: "Gold", title: "Norwegian Chef Association National Apprentice Championship" },
+  { year: "2010", medal: "Gold", title: "Culinary World Cup — Cold Food (Norwegian Culinary Team)" },
+  { year: "2010", medal: "Silver", title: "Culinary World Cup — Overall (Norwegian Culinary Team)" },
+  { year: "2011", medal: "Gold", title: "Norwegian Chef Association National Culinary Championship" },
+  { year: "2012", medal: "Gold", title: "Nordic Chef of the Year" },
+  { year: "2012", medal: "Silver", title: "Norwegian Chef Association National Culinary Championship" },
+  { year: "2013", medal: "Gold", title: "Seafood Chef of the Year, Norway" },
+];
+
+const MERITS_PEAK: Merit[] = [
+  { year: "2014", medal: "Gold", title: "Norwegian Chef Association National Culinary Championship" },
+  { year: "2014", medal: "Gold", title: "Linie Awards — Cordon Bleu" },
+  { year: "2014", medal: "Gold", title: "Championship Young Chef of the Year, Norway" },
+  { year: "2015", medal: "Gold", title: "San Pellegrino Young Chef — Semi Final" },
+  { year: "2015", medal: "Silver", title: "San Pellegrino Young Chef — Final, Norwegian Candidate" },
+  { year: "2015", medal: "Silver", title: "Nordic Chef of the Year — Candidate" },
+  { year: "2015", medal: "Silver", title: "Årets Kokk — Norwegian Bocuse d'Or Classification" },
+  { year: "2016", medal: "Silver", title: "Right Hand, Team CWD — Bocuse d'Or Europe" },
+  { year: "2017", medal: "Silver", title: "Right Hand, Team CWD — Bocuse d'Or" },
+  { year: "2017", medal: "Gold", title: "Årets Kokk — Norwegian Bocuse d'Or Classification" },
+  { year: "2017", medal: "Selected", title: "Forbes 30 Under 30 Europe — The Arts" },
+];
+
+const MERITS_LEGEND: Merit[] = [
+  { year: "2018", medal: "Gold", title: "Bocuse d'Or Europe, Torino" },
+  { year: "2019", medal: "Gold", title: "Årets Kokk — Norwegian Bocuse d'Or Classification" },
+  { year: "2019", medal: "Bronze", title: "Bocuse d'Or World Final, Lyon" },
+  { year: "2020", medal: "Gold", title: "Bocuse d'Or Europe, Tallinn" },
+  { year: "2021", medal: "Bronze", title: "Bocuse d'Or World Final, Lyon" },
+  { year: "2025", medal: "Gold", title: "Årets Kokk — 3rd time" },
+  { year: "2026", medal: "Silver", title: "Bocuse d'Or Europe, Marseille" },
+  { year: "2027", medal: "Qualified", title: "Bocuse d'Or World Final, Lyon" },
+];
+
+const MEDAL_COLOR: Record<string, string> = {
+  Gold: "var(--gold)",
+  Silver: "var(--silver)",
+  Bronze: "var(--bronze)",
+  Selected: "var(--gold)",
+  Qualified: "var(--gold)",
+};
+
+function MeritRow({ item }: { item: Merit }) {
+  const color = MEDAL_COLOR[item.medal];
+  return (
+    <div className="opacity-0 translate-y-4 section-line">
+      {/* Desktop: single row */}
+      <div className="hidden sm:flex items-baseline gap-6">
+        <span
+          className="font-[var(--font-heading)] text-xl shrink-0 w-14"
+          style={{ color }}
+        >
+          {item.year}
+        </span>
+        <span
+          className="shrink-0 text-xs tracking-[0.15em] uppercase font-sans font-medium w-[4.5rem]"
+          style={{ color }}
+        >
+          {item.medal}
+        </span>
+        <span className="font-sans text-sm text-white/90 leading-snug">
+          {item.title}
+        </span>
+      </div>
+      {/* Mobile: two lines */}
+      <div className="sm:hidden">
+        <div className="flex items-baseline gap-3 mb-0.5">
+          <span className="font-[var(--font-heading)] text-lg shrink-0" style={{ color }}>
+            {item.year}
+          </span>
+          <span className="text-[10px] tracking-[0.15em] uppercase font-sans font-medium" style={{ color }}>
+            {item.medal}
+          </span>
+        </div>
+        <p className="font-sans text-xs text-white/80 leading-relaxed pl-0.5">
+          {item.title}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Section config ─── */
 interface Section {
   id: string;
+  nav: string;
   startPct: number;
   endPct: number;
   content: React.ReactNode;
@@ -15,62 +111,116 @@ interface Section {
 
 const SECTIONS: Section[] = [
   {
-    id: "hero",
+    id: "intro",
+    nav: "Intro",
     startPct: 0,
-    endPct: 0.15,
+    endPct: 0.08,
     content: (
       <div className="text-center">
-        <p className="font-sans text-sm tracking-[0.3em] uppercase text-[var(--gold)] mb-6 opacity-0 translate-y-4 section-line">
-          Christian André Pettersen presents
-        </p>
-        <h1 className="font-[var(--font-heading)] text-[clamp(3rem,10vw,9rem)] font-light leading-[0.9] tracking-tight opacity-0 translate-y-6 section-line">
-          ALTER
+        <h1 className="font-[var(--font-heading)] text-[clamp(3.5rem,12vw,10rem)] font-light leading-[0.85] tracking-tight opacity-0 translate-y-6 section-line">
+          Mr.
           <br />
-          <em className="font-normal italic">EGO</em>
+          <em className="font-normal italic">CAP</em>
         </h1>
-        <div className="w-24 h-px bg-[var(--gold)] mx-auto my-8 scale-x-0 section-line" />
-        <p className="font-sans text-lg md:text-xl text-[var(--text)]/60 max-w-lg mx-auto opacity-0 translate-y-4 section-line">
-          Two decades. One obsession. The world&apos;s greatest culinary stage.
+        <div className="w-20 h-px bg-[var(--gold)]/60 mx-auto my-8 scale-x-0 section-line" />
+        <p className="font-sans text-base sm:text-lg md:text-xl text-[var(--text)]/50 max-w-md mx-auto opacity-0 translate-y-4 section-line tracking-wide">
+          Christian André Pettersen
         </p>
       </div>
     ),
   },
   {
-    id: "about",
-    startPct: 0.15,
-    endPct: 0.35,
+    id: "origins",
+    nav: "Origins",
+    startPct: 0.08,
+    endPct: 0.18,
     content: (
       <div className="max-w-2xl">
-        <p className="text-sm tracking-[0.3em] uppercase text-[var(--gold)] mb-4 opacity-0 translate-y-4 section-line">
-          Hvem er jeg
+        <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-4 opacity-0 translate-y-4 section-line">
+          Origins
         </p>
         <h2 className="font-[var(--font-heading)] text-[clamp(2rem,5vw,4.5rem)] font-light leading-tight mb-8 opacity-0 translate-y-6 section-line">
-          Christian André <em className="italic">Pettersen</em>
+          Born north of the <em className="italic">Arctic Circle</em>
         </h2>
-        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/70 mb-6 opacity-0 translate-y-4 section-line">
-          Født 21. juli 1989 i Bodø, nord for Polarsirkelen. Som elleveåring
-          vasket han sine første tallerkener på Turisthytta. Som 21-åring ble
-          han den yngste vinneren av NM i kokkekunst noensinne. I dag er han
-          Norges mest meritterte konkurransekokk.
+        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/60 mb-5 opacity-0 translate-y-4 section-line">
+          July 21, 1989. Bodø, Northern Norway. Son of a Norwegian fisherman-chef and a Filipino mother — two culinary traditions woven into his DNA from the very beginning.
         </p>
-        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/70 mb-8 opacity-0 translate-y-4 section-line">
-          Sønn av en norsk fisker-kokk og en filippinsk mor. To kulinariske
-          tradisjoner i sitt DNA. Norsk langustin med asiatisk teknikk. Arktiske
-          råvarer med tropisk instinkt. Presisjon med sjel.
+        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/60 mb-5 opacity-0 translate-y-4 section-line">
+          At age eleven, he washed his first dishes at Turisthytta. By twelve, he was running the dessert station. The kitchen chose him before he chose it.
         </p>
-        <div className="flex gap-6 sm:gap-10 flex-wrap opacity-0 translate-y-4 section-line">
+        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/60 opacity-0 translate-y-4 section-line">
+          Norwegian langoustine with Asian technique. Arctic ingredients with tropical instinct. Precision with soul. East meets West — on every plate.
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: "philosophy",
+    nav: "Philosophy",
+    startPct: 0.18,
+    endPct: 0.26,
+    content: (
+      <div className="max-w-2xl">
+        <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-4 opacity-0 translate-y-4 section-line">
+          Philosophy
+        </p>
+        <h2 className="font-[var(--font-heading)] text-[clamp(2rem,5vw,4.5rem)] font-light leading-tight mb-10 opacity-0 translate-y-6 section-line">
+          The devil in the <em className="italic">details</em>
+        </h2>
+        <div className="space-y-6">
+          <div className="opacity-0 translate-y-4 section-line">
+            <h3 className="font-[var(--font-heading)] text-xl text-[var(--gold)] mb-2 italic">Precision</h3>
+            <p className="font-sans text-sm sm:text-base text-[var(--text)]/60 leading-relaxed">
+              Every element placed with purpose. Every flavor balanced with intention. Adding caviar doesn&apos;t make you a good chef — understanding your ingredient and executing perfectly does.
+            </p>
+          </div>
+          <div className="opacity-0 translate-y-4 section-line">
+            <h3 className="font-[var(--font-heading)] text-xl text-[var(--gold)] mb-2 italic">East Meets West</h3>
+            <p className="font-sans text-sm sm:text-base text-[var(--text)]/60 leading-relaxed">
+              Two cultures, one kitchen. Filipino warmth and Norwegian precision on every plate. Arctic seaweed with tropical instinct. A dialogue between worlds.
+            </p>
+          </div>
+          <div className="opacity-0 translate-y-4 section-line">
+            <h3 className="font-[var(--font-heading)] text-xl text-[var(--gold)] mb-2 italic">Flavor is Everything</h3>
+            <p className="font-sans text-sm sm:text-base text-[var(--text)]/60 leading-relaxed">
+              Less is more. Respect the essence of the product. Local ingredients from the fjords and Arctic waters, prepared with care that honors the producers and the land itself.
+            </p>
+          </div>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "career",
+    nav: "Career",
+    startPct: 0.26,
+    endPct: 0.34,
+    content: (
+      <div className="max-w-2xl">
+        <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-4 opacity-0 translate-y-4 section-line">
+          Career
+        </p>
+        <h2 className="font-[var(--font-heading)] text-[clamp(2rem,5vw,4.5rem)] font-light leading-tight mb-10 opacity-0 translate-y-6 section-line">
+          The <em className="italic">Path</em>
+        </h2>
+        <div className="space-y-5">
           {[
-            { num: "14", label: "Gullmedaljer" },
-            { num: "2×", label: "Europamester" },
-            { num: "3×", label: "Årets Kokk" },
-          ].map((s) => (
-            <div key={s.label}>
-              <div className="font-[var(--font-heading)] text-4xl text-[var(--gold)]">
-                {s.num}
-              </div>
-              <div className="text-xs tracking-[0.2em] uppercase text-[var(--text)]/50 mt-1">
-                {s.label}
-              </div>
+            { role: "Apprentice → Sous Chef", place: "Under Bocuse d'Or champion Charles Tjessem", note: "Where discipline met ambition" },
+            { role: "Head Chef", place: "Spiseriet Konserthuset, Stavanger", note: "" },
+            { role: "Head Chef", place: "Mondo Restaurant, Sandnes", note: "" },
+            { role: "Culinary Director", place: "Thon Hotels", note: "Creative development across the chain" },
+            { role: "Founder & Owner", place: "Alter Ego, Sandnes", note: "His own vision, finally realized" },
+            { role: "Menu & Concept Development", place: "Restaurant ATTME, Bodø", note: "Northern Norwegian cuisine with international perspective" },
+          ].map((item, i) => (
+            <div key={i} className="opacity-0 translate-y-4 section-line">
+              <p className="font-sans text-sm sm:text-base text-white/90 leading-relaxed">
+                <span className="text-[var(--gold)]">{item.role}</span>
+                <span className="text-[var(--text)]/40 mx-2">—</span>
+                {item.place}
+              </p>
+              {item.note && (
+                <p className="font-sans text-xs text-[var(--text)]/30 mt-0.5 italic">{item.note}</p>
+              )}
             </div>
           ))}
         </div>
@@ -78,161 +228,198 @@ const SECTIONS: Section[] = [
     ),
   },
   {
-    id: "experience",
-    startPct: 0.35,
-    endPct: 0.55,
+    id: "merits-rise",
+    nav: "2007–13",
+    startPct: 0.34,
+    endPct: 0.44,
     content: (
-      <div className="max-w-2xl">
-        <p className="text-sm tracking-[0.3em] uppercase text-[var(--gold)] mb-4 opacity-0 translate-y-4 section-line">
-          Erfaring
+      <div className="max-w-3xl w-full">
+        <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-4 opacity-0 translate-y-4 section-line">
+          Merit List
         </p>
-        <h2 className="font-[var(--font-heading)] text-[clamp(2rem,5vw,4.5rem)] font-light leading-tight mb-10 opacity-0 translate-y-6 section-line">
-          Veien til <em className="italic">Lyon</em>
+        <h2 className="font-[var(--font-heading)] text-[clamp(1.8rem,4vw,3.5rem)] font-light leading-tight mb-3 opacity-0 translate-y-6 section-line">
+          The <em className="italic">Rise</em>
+          <span className="text-[var(--text)]/20 text-lg sm:text-2xl ml-3 sm:ml-4">2007–2013</span>
         </h2>
-        <div className="space-y-4 sm:space-y-6">
-          {[
-            {
-              year: "2011",
-              title: "Yngste NM-vinner",
-              badge: "Gull",
-            },
-            {
-              year: "2017",
-              title: "Årets Kokk · Forbes 30 Under 30",
-              badge: "Gull",
-            },
-            {
-              year: "2018",
-              title: "Bocuse d'Or Europa, Torino",
-              badge: "Gull",
-            },
-            {
-              year: "2020",
-              title: "Bocuse d'Or Europa, Tallinn — Back-to-back",
-              badge: "Gull",
-            },
-            {
-              year: "2025",
-              title: "Årets Kokk for tredje gang",
-              badge: "Gull",
-            },
-            {
-              year: "2027",
-              title: "Lyon — Den siste dansen",
-              badge: "Finalen",
-            },
-          ].map((item) => (
-            <div
-              key={item.year}
-              className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-6 opacity-0 translate-y-4 section-line"
-            >
-              <span className="font-[var(--font-heading)] text-xl sm:text-2xl text-[var(--gold)] shrink-0 sm:w-16">
-                {item.year}
-              </span>
-              <span className="font-sans text-sm sm:text-base text-[var(--text)]/80">
-                {item.title}
-              </span>
-              <span className="sm:ml-auto text-[10px] sm:text-xs tracking-[0.15em] uppercase border border-[var(--gold)]/30 text-[var(--gold)] px-2 sm:px-3 py-0.5 sm:py-1 rounded-full self-start sm:self-auto shrink-0">
-                {item.badge}
-              </span>
-            </div>
+        <p className="font-sans text-xs sm:text-sm text-[var(--text)]/30 mb-6 sm:mb-8 opacity-0 translate-y-4 section-line">
+          From apprentice to the youngest National Champion in Norwegian history at just 21.
+        </p>
+        <div className="space-y-3 sm:space-y-2.5">
+          {MERITS_RISE.map((item, i) => (
+            <MeritRow key={i} item={item} />
           ))}
         </div>
       </div>
     ),
   },
   {
-    id: "projects",
-    startPct: 0.55,
-    endPct: 0.75,
+    id: "merits-peak",
+    nav: "2014–17",
+    startPct: 0.44,
+    endPct: 0.54,
+    content: (
+      <div className="max-w-3xl w-full">
+        <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-4 opacity-0 translate-y-4 section-line">
+          Merit List
+        </p>
+        <h2 className="font-[var(--font-heading)] text-[clamp(1.8rem,4vw,3.5rem)] font-light leading-tight mb-3 opacity-0 translate-y-6 section-line">
+          The <em className="italic">Peak</em>
+          <span className="text-[var(--text)]/20 text-lg sm:text-2xl ml-3 sm:ml-4">2014–2017</span>
+        </h2>
+        <p className="font-sans text-xs sm:text-sm text-[var(--text)]/30 mb-6 sm:mb-8 opacity-0 translate-y-4 section-line">
+          Three golds in a single year. Forbes 30 Under 30. Chef of the Year for the first time.
+        </p>
+        <div className="space-y-3 sm:space-y-2.5">
+          {MERITS_PEAK.map((item, i) => (
+            <MeritRow key={i} item={item} />
+          ))}
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "merits-legend",
+    nav: "2018–27",
+    startPct: 0.54,
+    endPct: 0.64,
+    content: (
+      <div className="max-w-3xl w-full">
+        <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-4 opacity-0 translate-y-4 section-line">
+          Merit List
+        </p>
+        <h2 className="font-[var(--font-heading)] text-[clamp(1.8rem,4vw,3.5rem)] font-light leading-tight mb-3 opacity-0 translate-y-6 section-line">
+          The <em className="italic">Legend</em>
+          <span className="text-[var(--text)]/20 text-lg sm:text-2xl ml-3 sm:ml-4">2018–2027</span>
+        </h2>
+        <p className="font-sans text-xs sm:text-sm text-[var(--text)]/30 mb-6 sm:mb-8 opacity-0 translate-y-4 section-line">
+          Back-to-back European Champion. Two Bocuse d&apos;Or world finals. Norway&apos;s most decorated competition chef in history.
+        </p>
+        <div className="space-y-3 sm:space-y-2.5">
+          {MERITS_LEGEND.map((item, i) => (
+            <MeritRow key={i} item={item} />
+          ))}
+        </div>
+        <div className="mt-10 pt-8 border-t border-[var(--gold)]/10 opacity-0 translate-y-4 section-line">
+          <p className="font-[var(--font-heading)] text-xl sm:text-2xl md:text-3xl text-[var(--gold)] text-center tracking-wide">
+            28 competitions. 15 gold. 8 silver. 2 bronze.
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "quote",
+    nav: "Words",
+    startPct: 0.64,
+    endPct: 0.72,
+    content: (
+      <div className="max-w-3xl text-center">
+        <div className="opacity-0 translate-y-6 section-line">
+          <p className="font-[var(--font-heading)] text-[clamp(1.5rem,4vw,3rem)] font-light leading-snug italic text-[var(--text)]/80 mb-8">
+            &ldquo;My father inspired me to do great things. He taught me that life has no limitations except the ones you create for yourself.&rdquo;
+          </p>
+          <div className="w-12 h-px bg-[var(--gold)]/30 mx-auto mb-4" />
+          <p className="font-sans text-xs tracking-[0.3em] uppercase text-[var(--gold)]/50">
+            Christian André Pettersen
+          </p>
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "alterego",
+    nav: "Alter Ego",
+    startPct: 0.72,
+    endPct: 0.8,
     content: (
       <div className="max-w-2xl">
-        <p className="text-sm tracking-[0.3em] uppercase text-[var(--gold)] mb-4 opacity-0 translate-y-4 section-line">
-          Prosjekter
+        <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-4 opacity-0 translate-y-4 section-line">
+          Alter Ego
         </p>
-        <h2 className="font-[var(--font-heading)] text-[clamp(2rem,5vw,4.5rem)] font-light leading-tight mb-10 opacity-0 translate-y-6 section-line">
+        <h2 className="font-[var(--font-heading)] text-[clamp(2rem,5vw,4.5rem)] font-light leading-tight mb-8 opacity-0 translate-y-6 section-line">
           Alter <em className="italic">Ego</em>
         </h2>
-        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/70 mb-8 opacity-0 translate-y-4 section-line">
-          I konkurranse blir Christian en annen — fokusert, uredd, opererer
-          utenfor vanlige grenser. Alter Ego fanger den transcendente
-          tilstanden. Hans lekeplass. Det lekne og det profesjonelle.
+        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/60 mb-5 opacity-0 translate-y-4 section-line">
+          In competition, Christian becomes someone else entirely — focused, fearless, operating beyond normal limits. Alter Ego captures that transcendent state.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {[
-            {
-              title: "Restaurant Alter Ego",
-              desc: "Smaksmeny — en reise gjennom det arktiske Norge med asiatisk sjel. Sandnes.",
-            },
-            {
-              title: "Restaurant ATTME",
-              desc: "Bodø. Nordnorsk matkultur med internasjonalt perspektiv.",
-            },
-            {
-              title: "Chef's Table",
-              desc: "Seks plasser. Første rad til mesterskap. Presisjon på konkurransenivå.",
-            },
-            {
-              title: "The Last Dance",
-              desc: "Lyon 2027. Hans tredje og siste forsøk på Bocuse d'Or-gull.",
-            },
-          ].map((p) => (
-            <div
-              key={p.title}
-              className="opacity-0 translate-y-4 section-line"
-            >
-              <h3 className="font-[var(--font-heading)] text-xl text-[var(--gold)] mb-2">
-                {p.title}
-              </h3>
-              <p className="font-sans text-sm text-[var(--text)]/60 leading-relaxed">
-                {p.desc}
-              </p>
-            </div>
-          ))}
+        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/60 mb-5 opacity-0 translate-y-4 section-line">
+          His next chapter. A brand new restaurant opening in Sandnes after Lyon 2027 — the culmination of twenty years at the top. A tasting menu that is a journey through Arctic Norway with Asian soul.
+        </p>
+      </div>
+    ),
+  },
+  {
+    id: "lastdance",
+    nav: "Last Dance",
+    startPct: 0.8,
+    endPct: 0.9,
+    content: (
+      <div className="max-w-2xl text-center">
+        <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-6 opacity-0 translate-y-4 section-line">
+          The Last Dance
+        </p>
+        <h2 className="font-[var(--font-heading)] text-[clamp(2rem,5vw,4rem)] font-light leading-tight mb-10 opacity-0 translate-y-6 section-line">
+          &ldquo;This is my <em className="italic">last dance.</em>&rdquo;
+        </h2>
+        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/60 mb-5 opacity-0 translate-y-4 section-line">
+          He said it in 2021. The feelings were mixed. One hopes for gold.
+        </p>
+        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/60 mb-5 opacity-0 translate-y-4 section-line">
+          Then in 2025 he came back. Won Årets Kokk for the third time. &ldquo;I&apos;m not finished. The motivation is strong.&rdquo;
+        </p>
+        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/60 mb-5 opacity-0 translate-y-4 section-line">
+          Lyon 2027. January 24–25. His third and final attempt at the Bocuse d&apos;Or world final.
+        </p>
+        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/40 italic opacity-0 translate-y-4 section-line">
+          After twenty years and a promise to his late father — this is where the story reaches its climax.
+        </p>
+        <div className="mt-10 opacity-0 translate-y-4 section-line">
+          <p className="font-[var(--font-heading)] text-sm tracking-[0.4em] uppercase text-[var(--gold)]/30">
+            Winners never quit
+          </p>
         </div>
       </div>
     ),
   },
   {
     id: "contact",
-    startPct: 0.75,
+    nav: "Contact",
+    startPct: 0.9,
     endPct: 1,
     content: (
       <div className="text-center max-w-xl mx-auto">
-        <p className="text-sm tracking-[0.3em] uppercase text-[var(--gold)] mb-4 opacity-0 translate-y-4 section-line">
-          Kontakt
+        <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-4 opacity-0 translate-y-4 section-line">
+          Contact
         </p>
-        <h2 className="font-[var(--font-heading)] text-[clamp(2rem,5vw,4.5rem)] font-light leading-tight mb-8 opacity-0 translate-y-6 section-line">
-          La oss <em className="italic">snakke</em>
+        <h2 className="font-[var(--font-heading)] text-[clamp(2rem,5vw,4.5rem)] font-light leading-tight mb-10 opacity-0 translate-y-6 section-line">
+          Christian André <em className="italic">Pettersen</em>
         </h2>
-        <p className="font-sans text-base md:text-lg text-[var(--text)]/60 mb-10 opacity-0 translate-y-4 section-line">
-          For samarbeid, private arrangementer eller pressehenvendelser.
-        </p>
-        <div className="space-y-4 opacity-0 translate-y-4 section-line">
+        <div className="space-y-5 opacity-0 translate-y-4 section-line">
           <a
-            href="mailto:press@alterego.no"
+            href="mailto:CAP@alterego.no"
             className="block font-[var(--font-heading)] text-2xl text-[var(--gold)] hover:text-[var(--text)] transition-colors duration-500"
           >
-            press@alterego.no
+            CAP@alterego.no
+          </a>
+          <a
+            href="tel:+4747865351"
+            className="block font-sans text-base text-[var(--text)]/50 hover:text-[var(--gold)] transition-colors duration-500"
+          >
+            +47 478 65 351
           </a>
           <a
             href="https://www.instagram.com/capnorway/"
             target="_blank"
             rel="noopener noreferrer"
-            className="block font-sans text-base text-[var(--text)]/50 hover:text-[var(--gold)] transition-colors duration-500"
+            className="block font-sans text-base text-[var(--text)]/40 hover:text-[var(--gold)] transition-colors duration-500"
           >
             @capnorway
           </a>
-          <p className="font-sans text-sm text-[var(--text)]/30 mt-8">
-            Sandnes, Norway &middot; Bodø, Norway
-          </p>
-        </div>
-        <div className="mt-16 opacity-0 translate-y-4 section-line">
-          <p className="font-[var(--font-heading)] text-sm tracking-[0.4em] uppercase text-[var(--gold)]/40">
-            Winners never quit
-          </p>
-          <p className="font-[var(--font-heading)] text-sm tracking-[0.4em] uppercase text-[var(--gold)]/70 mt-2">
-            Last Dance
+          <div className="pt-8" style={{ pointerEvents: "auto" }}>
+            <CvPdfGenerator />
+          </div>
+          <p className="font-sans text-xs text-[var(--text)]/20 mt-6 tracking-widest uppercase">
+            Alter Ego &middot; Sandnes
           </p>
         </div>
       </div>
@@ -240,7 +427,7 @@ const SECTIONS: Section[] = [
   },
 ];
 
-const PASSWORD = "alterego";
+const PASSWORD = "bama";
 
 export default function Home() {
   const [unlocked, setUnlocked] = useState(false);
@@ -254,33 +441,59 @@ export default function Home() {
 
   const animateSection = useCallback((sectionId: string) => {
     if (activeSectionRef.current === sectionId) return;
+    const prevSection = activeSectionRef.current;
     activeSectionRef.current = sectionId;
+
+    // Reset lines in previous section
+    if (prevSection) {
+      const prev = document.querySelector(`[data-section="${prevSection}"]`);
+      if (prev) {
+        const prevLines = prev.querySelectorAll(".section-line");
+        gsap.set(prevLines, { opacity: 0, y: 16, scaleX: 0 });
+      }
+    }
 
     // Fade out all sections
     document.querySelectorAll(".scroll-section").forEach((el) => {
-      const htmlEl = el as HTMLElement;
       if (el.getAttribute("data-section") !== sectionId) {
-        gsap.to(htmlEl, { opacity: 0, duration: 0.4, ease: "power2.out" });
+        gsap.to(el as HTMLElement, { opacity: 0, duration: 0.5, ease: "power2.inOut" });
       }
     });
 
-    // Fade in + animate lines of active section
-    const active = document.querySelector(
-      `[data-section="${sectionId}"]`
-    ) as HTMLElement;
+    // Fade in active section
+    const active = document.querySelector(`[data-section="${sectionId}"]`) as HTMLElement;
     if (!active) return;
 
-    gsap.to(active, { opacity: 1, duration: 0.5, ease: "power2.out" });
+    gsap.to(active, { opacity: 1, duration: 0.6, ease: "power2.out" });
 
     const lines = active.querySelectorAll(".section-line");
     gsap.to(lines, {
       opacity: 1,
       y: 0,
       scaleX: 1,
-      duration: 0.8,
-      stagger: 0.12,
+      duration: 0.9,
+      stagger: 0.1,
       ease: "power3.out",
       overwrite: true,
+    });
+
+    // Update nav highlights
+    document.querySelectorAll("[data-nav]").forEach((nav) => {
+      nav.classList.remove("nav-active");
+      if (nav.getAttribute("data-nav") === sectionId) {
+        nav.classList.add("nav-active");
+      }
+    });
+
+    // Enable pointer events on active section (for links/buttons)
+    // but keep touchAction "none" so scroll still works on touch devices
+    document.querySelectorAll(".scroll-section").forEach((el) => {
+      const htmlEl = el as HTMLElement;
+      if (el.getAttribute("data-section") === sectionId) {
+        htmlEl.style.pointerEvents = "auto";
+      } else {
+        htmlEl.style.pointerEvents = "none";
+      }
     });
   }, []);
 
@@ -289,29 +502,33 @@ export default function Home() {
     const video = videoRef.current;
     if (!video) return;
 
-    // Wait for video metadata
-    const onLoadedMetadata = () => {
-      // Main scroll-driven video scrub
+    const onReady = () => {
       ScrollTrigger.create({
         trigger: containerRef.current,
         start: "top top",
         end: "bottom bottom",
-        scrub: true,
+        scrub: 0.5,
         onUpdate: (self) => {
+          // Video scrub
           if (video.duration) {
             video.currentTime = self.progress * video.duration;
           }
 
-          // Determine active section
-          const progress = self.progress;
+          // Progress bar
+          const bar = document.getElementById("progress-bar");
+          if (bar) {
+            bar.style.height = `${self.progress * 100}%`;
+          }
+
+          // Section detection
+          const p = self.progress;
           for (const section of SECTIONS) {
-            if (progress >= section.startPct && progress < section.endPct) {
+            if (p >= section.startPct && p < section.endPct) {
               animateSection(section.id);
               break;
             }
           }
-          // Handle last section at exactly 1
-          if (progress >= SECTIONS[SECTIONS.length - 1].startPct) {
+          if (p >= SECTIONS[SECTIONS.length - 1].startPct) {
             animateSection(SECTIONS[SECTIONS.length - 1].id);
           }
         },
@@ -319,16 +536,13 @@ export default function Home() {
     };
 
     if (video.readyState >= 1) {
-      onLoadedMetadata();
+      onReady();
     } else {
-      video.addEventListener("loadedmetadata", onLoadedMetadata);
+      video.addEventListener("loadedmetadata", onReady);
     }
 
-    // Custom cursor with spring physics
-    let mx = 0,
-      my = 0,
-      cx = 0,
-      cy = 0;
+    // Custom cursor
+    let mx = 0, my = 0, cx = 0, cy = 0;
     const spring = 0.08;
 
     const handleMouse = (e: MouseEvent) => {
@@ -351,14 +565,13 @@ export default function Home() {
     }
     tick();
 
-    // Animate first section on load
-    setTimeout(() => animateSection("hero"), 300);
+    setTimeout(() => animateSection("intro"), 400);
 
     return () => {
       document.removeEventListener("mousemove", handleMouse);
       cancelAnimationFrame(raf);
       ScrollTrigger.getAll().forEach((t) => t.kill());
-      video.removeEventListener("loadedmetadata", onLoadedMetadata);
+      video.removeEventListener("loadedmetadata", onReady);
     };
   }, [animateSection, unlocked]);
 
@@ -373,51 +586,58 @@ export default function Home() {
     }
   };
 
+  /* ─── Login screen ─── */
   if (!unlocked) {
     return (
-      <div className="fixed inset-0 bg-[var(--bg)] flex items-center justify-center z-50">
-        <form onSubmit={handleSubmit} className="text-center">
-          <p className="font-[var(--font-heading)] text-sm tracking-[0.3em] uppercase text-[var(--gold)] mb-6">
-            Privat visning
-          </p>
-          <h1 className="font-[var(--font-heading)] text-4xl sm:text-5xl font-light mb-10 text-[var(--text)]">
-            ALTER <em className="italic">EGO</em>
-          </h1>
-          <div className={`${shake ? "animate-[shake_0.4s_ease-in-out]" : ""}`}>
-            <input
-              type="password"
-              value={pwInput}
-              onChange={(e) => setPwInput(e.target.value)}
-              placeholder="Passord"
-              autoFocus
-              className="bg-transparent border-b border-[var(--gold)]/30 text-center text-[var(--text)] font-sans text-lg py-3 px-6 outline-none focus:border-[var(--gold)] transition-colors w-64 placeholder:text-[var(--text)]/20"
-            />
-          </div>
-          <button
-            type="submit"
-            className="mt-8 text-xs tracking-[0.2em] uppercase text-[var(--gold)]/60 hover:text-[var(--gold)] transition-colors cursor-none"
-          >
-            Gå inn →
-          </button>
-        </form>
-        <style>{`
-          @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-8px); }
-            50% { transform: translateX(8px); }
-            75% { transform: translateX(-4px); }
-          }
-        `}</style>
+      <div className="grain">
+        <div className="fixed inset-0 bg-[var(--bg)] flex items-center justify-center z-50">
+          <video
+            className="absolute inset-0 w-full h-full object-cover opacity-[0.08]"
+            src="/videos/christian.mp4"
+            muted
+            playsInline
+            autoPlay
+            loop
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg)] via-transparent to-[var(--bg)]" />
+
+          <form onSubmit={handleSubmit} className="text-center relative z-10">
+            <p className="font-sans text-[11px] tracking-[0.4em] uppercase text-[var(--gold)]/60 mb-8 fade-up">
+              Private viewing
+            </p>
+            <h1 className="font-[var(--font-heading)] text-5xl sm:text-7xl font-light text-[var(--text)] fade-up-delay-1">
+              Mr. <em className="italic">CAP</em>
+            </h1>
+            <div className="w-16 h-px bg-[var(--gold)]/40 mx-auto my-8 line-draw" />
+            <div className={`fade-up-delay-2 ${shake ? "animate-[shake_0.4s_ease-in-out]" : ""}`}>
+              <input
+                type="password"
+                value={pwInput}
+                onChange={(e) => setPwInput(e.target.value)}
+                placeholder="Password"
+                autoFocus
+                className="bg-transparent border-b border-[var(--gold)]/20 text-center text-[var(--text)] font-sans text-lg py-3 px-6 outline-none focus:border-[var(--gold)]/60 transition-colors w-64 placeholder:text-[var(--text)]/15"
+              />
+            </div>
+            <button
+              type="submit"
+              className="mt-10 text-[10px] tracking-[0.25em] uppercase text-[var(--gold)]/40 hover:text-[var(--gold)] transition-colors duration-500 fade-up-delay-3"
+            >
+              Enter
+            </button>
+          </form>
+        </div>
       </div>
     );
   }
 
+  /* ─── Main experience ─── */
   return (
-    <>
-      {/* Custom cursor — hidden on touch devices */}
+    <div className="grain vignette">
+      {/* Custom cursor */}
       <div
         ref={cursorRef}
-        className="fixed top-0 left-0 w-10 h-10 rounded-full border border-[var(--gold)]/50 pointer-events-none z-[9999] mix-blend-difference hidden md:block"
+        className="fixed top-0 left-0 w-10 h-10 rounded-full border border-[var(--gold)]/40 pointer-events-none z-[9999] mix-blend-difference hidden md:block"
         style={{ willChange: "transform" }}
       />
       <div
@@ -426,7 +646,7 @@ export default function Home() {
         style={{ willChange: "transform" }}
       />
 
-      {/* Fixed video background */}
+      {/* Video background */}
       <video
         ref={videoRef}
         className="fixed inset-0 w-full h-full object-cover z-0"
@@ -436,61 +656,53 @@ export default function Home() {
         preload="auto"
       />
 
-      {/* Dark overlay on video */}
-      <div className="fixed inset-0 bg-black/50 z-[1]" />
+      {/* Gradient overlay */}
+      <div className="fixed inset-0 z-[1] bg-gradient-to-t from-black/70 via-black/40 to-black/60" />
 
-      {/* Scroll container — 600vh tall */}
-      <div ref={containerRef} className="relative z-[2]" style={{ height: "600vh" }}>
+      {/* Scroll container — 11 sections need room */}
+      <div ref={containerRef} className="relative z-[3]" style={{ height: "900vh" }}>
         {/* Progress bar */}
-        <div className="fixed top-0 right-3 sm:right-6 h-screen w-px bg-[var(--text)]/10 z-[10]">
+        <div className="fixed top-0 right-3 sm:right-6 h-screen w-px bg-[var(--text)]/5 z-[10]">
           <div
-            className="w-px bg-[var(--gold)] origin-top transition-none"
+            className="w-px bg-[var(--gold)]/60 origin-top"
             id="progress-bar"
-            style={{ height: "0%" }}
+            style={{ height: "0%", transition: "height 0.1s linear" }}
           />
         </div>
 
-        {/* Section labels on right */}
-        <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[10] hidden md:flex flex-col gap-3 items-end">
+        {/* Nav labels */}
+        <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[10] hidden md:flex flex-col gap-2 items-end">
           {SECTIONS.map((s) => (
             <div
               key={s.id}
               data-nav={s.id}
-              className="text-[10px] tracking-[0.2em] uppercase text-[var(--text)]/20 transition-all duration-500 font-sans"
+              className="text-[9px] tracking-[0.2em] uppercase text-[var(--text)]/15 transition-all duration-700 font-sans"
             >
-              {s.id === "hero"
-                ? "Intro"
-                : s.id === "about"
-                  ? "Bio"
-                  : s.id === "experience"
-                    ? "Erfaring"
-                    : s.id === "projects"
-                      ? "Prosjekter"
-                      : "Kontakt"}
+              {s.nav}
             </div>
           ))}
         </div>
 
         {/* Scroll hint — mobile */}
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[10] flex flex-col items-center gap-2 md:hidden scroll-hint">
-          <span className="text-[10px] tracking-[0.2em] uppercase text-[var(--text)]/30 font-sans">
+        <div className="fixed bottom-[max(2rem,env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 z-[10] flex flex-col items-center gap-2 md:hidden">
+          <span className="text-[9px] tracking-[0.3em] uppercase text-[var(--text)]/20 font-sans">
             Scroll
           </span>
-          <div className="w-px h-6 bg-[var(--gold)]/30 animate-pulse" />
+          <div className="w-px h-8 bg-[var(--gold)]/20 animate-pulse" />
         </div>
 
-        {/* Content sections — fixed overlay positioning */}
+        {/* Content sections */}
         {SECTIONS.map((section) => (
           <div
             key={section.id}
             data-section={section.id}
-            className="scroll-section fixed inset-0 flex items-end sm:items-center justify-center px-5 sm:px-8 md:px-16 pb-24 sm:pb-0 z-[5] opacity-0"
-            style={{ pointerEvents: "none", touchAction: "none" }}
+            className="scroll-section fixed inset-0 flex items-center justify-center px-6 sm:px-10 md:px-20 pt-16 pb-20 sm:pt-0 sm:pb-0 z-[5] opacity-0"
+            style={{ pointerEvents: "none" }}
           >
             {section.content}
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }

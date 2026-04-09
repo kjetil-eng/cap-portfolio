@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Outfit } from "next/font/google";
 import "./globals.css";
 
@@ -15,10 +15,21 @@ const outfit = Outfit({
   weight: ["300", "400", "500", "600"],
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#0a0a0a",
+};
+
 export const metadata: Metadata = {
-  title: "Christian André Pettersen — Alter Ego",
+  title: "Mr. CAP — Christian André Pettersen",
   description:
-    "Norway's most decorated competition chef. 2× Bocuse d'Or European Champion. 3× Chef of the Year.",
+    "Digital CV. Norway's most decorated competition chef. 28 competitions. 15 gold. 2× Bocuse d'Or European Champion. 3× Chef of the Year.",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+  },
 };
 
 export default function RootLayout({
