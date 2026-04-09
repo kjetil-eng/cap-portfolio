@@ -98,8 +98,7 @@ const SECTIONS: Section[] = [
     endPct: 0.08,
     content: (
       <div className="text-center">
-        {/* #2 Gold shimmer */}
-        <h1 className="font-[var(--font-heading)] text-[clamp(3.5rem,12vw,10rem)] font-light leading-[0.85] tracking-tight opacity-0 translate-y-6 section-line ">
+        <h1 className="font-[var(--font-heading)] text-[clamp(3.5rem,12vw,10rem)] font-light leading-[0.85] tracking-tight opacity-0 translate-y-6 section-line">
           Mr.
           <br />
           <em className="font-normal italic">CAP</em>
@@ -108,6 +107,20 @@ const SECTIONS: Section[] = [
         <p className="font-sans text-base sm:text-lg md:text-xl text-[var(--text)]/50 max-w-md mx-auto opacity-0 translate-y-4 section-line tracking-wide">
           Christian André Pettersen
         </p>
+        <div className="flex justify-center gap-8 sm:gap-12 mt-10 opacity-0 translate-y-4 section-line">
+          <div className="text-center">
+            <span className="font-[var(--font-heading)] text-2xl sm:text-3xl text-[var(--gold)]">15</span>
+            <p className="font-sans text-[9px] sm:text-[10px] tracking-[0.2em] uppercase text-[var(--text)]/30 mt-1">Gold</p>
+          </div>
+          <div className="text-center">
+            <span className="font-[var(--font-heading)] text-2xl sm:text-3xl text-[var(--gold)]">2×</span>
+            <p className="font-sans text-[9px] sm:text-[10px] tracking-[0.2em] uppercase text-[var(--text)]/30 mt-1">European Champion</p>
+          </div>
+          <div className="text-center">
+            <span className="font-[var(--font-heading)] text-2xl sm:text-3xl text-[var(--gold)]">3×</span>
+            <p className="font-sans text-[9px] sm:text-[10px] tracking-[0.2em] uppercase text-[var(--text)]/30 mt-1">Chef of the Year</p>
+          </div>
+        </div>
       </div>
     ),
   },
@@ -122,9 +135,9 @@ const SECTIONS: Section[] = [
         <h2 className="font-[var(--font-heading)] text-[clamp(2rem,5vw,4.5rem)] font-light leading-tight mb-8 opacity-0 translate-y-6 section-line">
           Born north of the <em className="italic">Arctic Circle</em>
         </h2>
-        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/60 mb-5 opacity-0 translate-y-4 section-line">July 21, 1989. Bodø, Northern Norway. Son of a Norwegian fisherman-chef and a Filipino mother — two culinary traditions woven into his DNA from the very beginning.</p>
-        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/60 mb-5 opacity-0 translate-y-4 section-line">At age eleven, he washed his first dishes at Turisthytta. By twelve, he was running the dessert station. The kitchen chose him before he chose it.</p>
-        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/60 opacity-0 translate-y-4 section-line">Norwegian langoustine with Asian technique. Arctic ingredients with tropical instinct. Precision with soul. East meets West — on every plate.</p>
+        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/70 mb-5 opacity-0 translate-y-4 section-line">July 21, 1989. Bodø, Northern Norway. Son of a Norwegian fisherman-chef and a Filipino mother — two culinary traditions woven into his DNA from the very beginning.</p>
+        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/70 mb-5 opacity-0 translate-y-4 section-line">At age eleven, he washed his first dishes at Turisthytta. By twelve, he was running the dessert station. The kitchen chose him before he chose it.</p>
+        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/70 opacity-0 translate-y-4 section-line">Norwegian langoustine with Asian technique. Arctic ingredients with tropical instinct. Precision with soul. East meets West — on every plate.</p>
       </div>
     ),
   },
@@ -142,15 +155,15 @@ const SECTIONS: Section[] = [
         <div className="space-y-6">
           <div className="opacity-0 translate-y-4 section-line">
             <h3 className="font-[var(--font-heading)] text-xl text-[var(--gold)] mb-2 italic">Precision</h3>
-            <p className="font-sans text-sm sm:text-base text-[var(--text)]/60 leading-relaxed">Every element placed with purpose. Every flavor balanced with intention. Adding caviar doesn&apos;t make you a good chef — understanding your ingredient and executing perfectly does.</p>
+            <p className="font-sans text-sm sm:text-base text-[var(--text)]/70 leading-relaxed">Every element placed with purpose. Every flavor balanced with intention. Adding caviar doesn&apos;t make you a good chef — understanding your ingredient and executing perfectly does.</p>
           </div>
           <div className="opacity-0 translate-y-4 section-line">
             <h3 className="font-[var(--font-heading)] text-xl text-[var(--gold)] mb-2 italic">East Meets West</h3>
-            <p className="font-sans text-sm sm:text-base text-[var(--text)]/60 leading-relaxed">Two cultures, one kitchen. Filipino warmth and Norwegian precision on every plate. Arctic seaweed with tropical instinct. A dialogue between worlds.</p>
+            <p className="font-sans text-sm sm:text-base text-[var(--text)]/70 leading-relaxed">Two cultures, one kitchen. Filipino warmth and Norwegian precision on every plate. Arctic seaweed with tropical instinct. A dialogue between worlds.</p>
           </div>
           <div className="opacity-0 translate-y-4 section-line">
             <h3 className="font-[var(--font-heading)] text-xl text-[var(--gold)] mb-2 italic">Flavor is Everything</h3>
-            <p className="font-sans text-sm sm:text-base text-[var(--text)]/60 leading-relaxed">Less is more. Respect the essence of the product. Local ingredients from the fjords and Arctic waters, prepared with care that honors the producers and the land itself.</p>
+            <p className="font-sans text-sm sm:text-base text-[var(--text)]/70 leading-relaxed">Less is more. Respect the essence of the product. Local ingredients from the fjords and Arctic waters, prepared with care that honors the producers and the land itself.</p>
           </div>
         </div>
       </div>
@@ -173,7 +186,7 @@ const SECTIONS: Section[] = [
             { role: "Head Chef", place: "Spiseriet Konserthuset, Stavanger", note: "" },
             { role: "Head Chef", place: "Mondo Restaurant, Sandnes", note: "" },
             { role: "Culinary Director", place: "Thon Hotels", note: "Creative development across the chain" },
-            { role: "Founder & Owner", place: "Alter Ego, Sandnes", note: "His own vision, finally realized" },
+            { role: "Founder & Owner", place: "Alter Ego, Sandnes", note: "Opening 2027 — his own vision, finally taking shape" },
             { role: "Menu & Concept Development", place: "Restaurant ATTME, Bodø", note: "Northern Norwegian cuisine with international perspective" },
           ].map((item, i) => (
             <div key={i} className="opacity-0 translate-y-4 section-line">
@@ -243,8 +256,8 @@ const SECTIONS: Section[] = [
       <div className="max-w-2xl">
         <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-4 opacity-0 translate-y-4 section-line">Alter Ego</p>
         <h2 className="font-[var(--font-heading)] text-[clamp(2rem,5vw,4.5rem)] font-light leading-tight mb-8 opacity-0 translate-y-6 section-line">Alter <em className="italic">Ego</em></h2>
-        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/60 mb-5 opacity-0 translate-y-4 section-line">In competition, Christian becomes someone else entirely — focused, fearless, operating beyond normal limits. Alter Ego captures that transcendent state.</p>
-        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/60 mb-5 opacity-0 translate-y-4 section-line">His next chapter. A brand new restaurant opening in Sandnes after Lyon 2027 — the culmination of twenty years at the top. A tasting menu that is a journey through Arctic Norway with Asian soul.</p>
+        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/70 mb-5 opacity-0 translate-y-4 section-line">In competition, Christian becomes someone else entirely — focused, fearless, operating beyond normal limits. Alter Ego captures that transcendent state.</p>
+        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/70 mb-5 opacity-0 translate-y-4 section-line">His next chapter. A brand new restaurant opening in Sandnes after Lyon 2027 — the culmination of twenty years at the top. A tasting menu that is a journey through Arctic Norway with Asian soul.</p>
       </div>
     ),
   },
@@ -254,9 +267,9 @@ const SECTIONS: Section[] = [
       <div className="max-w-2xl text-center">
         <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-6 opacity-0 translate-y-4 section-line">The Last Dance</p>
         <h2 className="font-[var(--font-heading)] text-[clamp(2rem,5vw,4rem)] font-light leading-tight mb-10 opacity-0 translate-y-6 section-line">&ldquo;This is my <em className="italic">last dance.</em>&rdquo;</h2>
-        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/60 mb-5 opacity-0 translate-y-4 section-line">He said it in 2021. The feelings were mixed. One hopes for gold.</p>
-        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/60 mb-5 opacity-0 translate-y-4 section-line">Then in 2025 he came back. Won Årets Kokk for the third time. &ldquo;I&apos;m not finished. The motivation is strong.&rdquo;</p>
-        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/60 mb-5 opacity-0 translate-y-4 section-line">Lyon 2027. January 24–25. His third and final attempt at the Bocuse d&apos;Or world final.</p>
+        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/70 mb-5 opacity-0 translate-y-4 section-line">He said it in 2021. The feelings were mixed. One hopes for gold.</p>
+        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/70 mb-5 opacity-0 translate-y-4 section-line">Then in 2025 he came back. Won Årets Kokk for the third time. &ldquo;I&apos;m not finished. The motivation is strong.&rdquo;</p>
+        <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/70 mb-5 opacity-0 translate-y-4 section-line">Lyon 2027. January 24–25. His third and final attempt at the Bocuse d&apos;Or world final.</p>
         <p className="font-sans text-base md:text-lg leading-relaxed text-[var(--text)]/40 italic opacity-0 translate-y-4 section-line">After twenty years and a promise to his late father — this is where the story reaches its climax.</p>
         <div className="mt-10 opacity-0 translate-y-4 section-line">
           <p className="font-[var(--font-heading)] text-sm tracking-[0.4em] uppercase text-[var(--gold)]/30">Winners never quit</p>
@@ -274,7 +287,7 @@ const SECTIONS: Section[] = [
           <a href="mailto:CAP@alterego.no" className="block font-[var(--font-heading)] text-2xl text-[var(--gold)] hover:text-[var(--text)] transition-colors duration-500">CAP@alterego.no</a>
           <a href="tel:+4747865351" className="block font-sans text-base text-[var(--text)]/50 hover:text-[var(--gold)] transition-colors duration-500">+47 478 65 351</a>
           <a href="https://www.instagram.com/capnorway/" target="_blank" rel="noopener noreferrer" className="block font-sans text-base text-[var(--text)]/40 hover:text-[var(--gold)] transition-colors duration-500">@capnorway</a>
-          <div className="pt-8" style={{ pointerEvents: "auto" }}><CvPdfGenerator /></div>
+          <div className="pt-8"><CvPdfGenerator /></div>
           <p className="font-sans text-xs text-[var(--text)]/20 mt-6 tracking-widest uppercase">Alter Ego &middot; Sandnes</p>
         </div>
       </div>
@@ -475,7 +488,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg)] via-transparent to-[var(--bg)]" />
           <form onSubmit={handleSubmit} className="text-center relative z-10">
             <p className="font-sans text-[11px] tracking-[0.4em] uppercase text-[var(--gold)]/60 mb-8 fade-up">Private viewing</p>
-            <h1 className="font-[var(--font-heading)] text-5xl sm:text-7xl font-light text-[var(--text)] fade-up-delay-1 ">Mr. <em className="italic">CAP</em></h1>
+            <h1 className="font-[var(--font-heading)] text-5xl sm:text-7xl font-light text-[var(--text)] fade-up-delay-1">Mr. <em className="italic">CAP</em></h1>
             <div className="w-16 h-px bg-[var(--gold)]/40 mx-auto my-8 line-draw" />
             <div className={`fade-up-delay-2 ${shake ? "animate-[shake_0.4s_ease-in-out]" : ""}`}>
               <input type="password" value={pwInput} onChange={(e) => setPwInput(e.target.value)} placeholder="Password" autoFocus className="bg-transparent border-b border-[var(--gold)]/20 text-center text-[var(--text)] font-sans text-lg py-3 px-6 outline-none focus:border-[var(--gold)]/60 transition-colors w-64 placeholder:text-[var(--text)]/15" />
