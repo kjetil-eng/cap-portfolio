@@ -20,6 +20,7 @@
 
 html {
   scroll-behavior: auto;
+  overscroll-behavior: none;
 }
 
 body {
@@ -30,17 +31,10 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Safe area for notched phones */
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
 }
 
-/* Prevent pull-to-refresh on mobile */
-html {
-  overscroll-behavior: none;
-}
-
-/* Touch tap highlight */
 * {
   -webkit-tap-highlight-color: transparent;
 }
@@ -50,17 +44,16 @@ html {
   color: var(--bg);
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 0px;
 }
 
-/* Film grain overlay */
+/* ─── Film grain overlay ─── */
 .grain::after {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 80;
   pointer-events: none;
   opacity: 0.035;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
@@ -68,7 +61,7 @@ html {
   background-size: 256px 256px;
 }
 
-/* Vignette */
+/* ─── Vignette ─── */
 .vignette::before {
   content: "";
   position: fixed;
@@ -78,36 +71,39 @@ html {
   background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.6) 100%);
 }
 
-/* Login fade-in */
+/* ─── #2 Gold shimmer on Mr. CAP ─── */
+@keyframes shimmer {
+  0% { background-position: 200% center; }
+  40% { background-position: -200% center; }
+  100% { background-position: -200% center; }
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--text) 0%,
+    var(--text) 40%,
+    var(--gold) 50%,
+    var(--text) 60%,
+    var(--text) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 5s ease-in-out infinite;
+}
+
+/* ─── Login animations ─── */
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.fade-up {
-  animation: fadeUp 1s ease-out forwards;
-}
-
-.fade-up-delay-1 {
-  animation: fadeUp 1s ease-out 0.2s forwards;
-  opacity: 0;
-}
-
-.fade-up-delay-2 {
-  animation: fadeUp 1s ease-out 0.5s forwards;
-  opacity: 0;
-}
-
-.fade-up-delay-3 {
-  animation: fadeUp 1s ease-out 0.8s forwards;
-  opacity: 0;
-}
+.fade-up { animation: fadeUp 1s ease-out forwards; }
+.fade-up-delay-1 { animation: fadeUp 1s ease-out 0.2s forwards; opacity: 0; }
+.fade-up-delay-2 { animation: fadeUp 1s ease-out 0.5s forwards; opacity: 0; }
+.fade-up-delay-3 { animation: fadeUp 1s ease-out 0.8s forwards; opacity: 0; }
 
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
@@ -126,8 +122,28 @@ html {
   transform: scaleX(0);
 }
 
-/* Nav dot active state */
+/* ─── Nav active state ─── */
 .nav-active {
   color: var(--gold) !important;
   opacity: 1 !important;
+}
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  .shimmer-text {
+    animation: none;
+    background: none;
+    -webkit-text-fill-color: var(--text);
+  }
+  .fade-up,
+  .fade-up-delay-1,
+  .fade-up-delay-2,
+  .fade-up-delay-3 {
+    animation: none;
+    opacity: 1;
+  }
+  .line-draw {
+    animation: none;
+    transform: scaleX(1);
+  }
 }
