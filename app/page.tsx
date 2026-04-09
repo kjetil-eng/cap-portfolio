@@ -3,10 +3,11 @@
 import { useEffect, useRef, useCallback, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import Lenis from "lenis";
 import CvPdfGenerator from "./cv-pdf";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 /* ─── Merit data ─── */
 interface Merit {
@@ -544,7 +545,7 @@ export default function Home() {
             const prev = SECTIONS[activeIndex - 1];
             const midPct = (prev.startPct + prev.endPct) / 2;
             const scrollTarget = midPct * (document.documentElement.scrollHeight - window.innerHeight);
-            window.scrollTo({ top: scrollTarget, behavior: "smooth" });
+            gsap.to(window, { scrollTo: scrollTarget, duration: 2, ease: "power2.inOut" });
           }}
           className="fixed top-[42px] sm:top-[54px] left-1/2 -translate-x-1/2 z-[15] bg-transparent border-none p-3 group"
           aria-label="Previous section"
@@ -562,7 +563,7 @@ export default function Home() {
             const next = SECTIONS[activeIndex + 1];
             const midPct = (next.startPct + next.endPct) / 2;
             const scrollTarget = midPct * (document.documentElement.scrollHeight - window.innerHeight);
-            window.scrollTo({ top: scrollTarget, behavior: "smooth" });
+            gsap.to(window, { scrollTo: scrollTarget, duration: 2, ease: "power2.inOut" });
           }}
           className="fixed bottom-[42px] sm:bottom-[54px] left-1/2 -translate-x-1/2 z-[15] bg-transparent border-none p-3 group"
           aria-label="Next section"
@@ -607,7 +608,7 @@ export default function Home() {
               onClick={() => {
                 const midPct = (s.startPct + s.endPct) / 2;
                 const scrollTarget = midPct * (document.documentElement.scrollHeight - window.innerHeight);
-                window.scrollTo({ top: scrollTarget, behavior: "smooth" });
+                gsap.to(window, { scrollTo: scrollTarget, duration: 2, ease: "power2.inOut" });
               }}
               className="text-[9px] tracking-[0.2em] uppercase text-[var(--text)]/15 transition-all duration-700 font-sans hover:text-[var(--gold)]/60 cursor-pointer bg-transparent border-none p-0"
             >
