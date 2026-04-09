@@ -95,7 +95,7 @@ const SECTIONS: Section[] = [
     id: "intro",
     nav: "Intro",
     startPct: 0,
-    endPct: 0.08,
+    endPct: 0.1,
     content: (
       <div className="text-center">
         <h1 className="font-[var(--font-heading)] text-[clamp(3.5rem,12vw,10rem)] font-light leading-[0.85] tracking-tight opacity-0 translate-y-6 section-line">
@@ -127,8 +127,8 @@ const SECTIONS: Section[] = [
   {
     id: "origins",
     nav: "Origins",
-    startPct: 0.08,
-    endPct: 0.18,
+    startPct: 0.1,
+    endPct: 0.19,
     content: (
       <div className="max-w-2xl">
         <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-4 opacity-0 translate-y-4 section-line">Origins</p>
@@ -144,8 +144,8 @@ const SECTIONS: Section[] = [
   {
     id: "philosophy",
     nav: "Philosophy",
-    startPct: 0.18,
-    endPct: 0.26,
+    startPct: 0.19,
+    endPct: 0.27,
     content: (
       <div className="max-w-2xl">
         <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-4 opacity-0 translate-y-4 section-line">Philosophy</p>
@@ -172,8 +172,8 @@ const SECTIONS: Section[] = [
   {
     id: "career",
     nav: "Career",
-    startPct: 0.26,
-    endPct: 0.34,
+    startPct: 0.27,
+    endPct: 0.35,
     content: (
       <div className="max-w-2xl">
         <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-4 opacity-0 translate-y-4 section-line">Career</p>
@@ -203,7 +203,7 @@ const SECTIONS: Section[] = [
     ),
   },
   {
-    id: "merits-rise", nav: "2007–13", startPct: 0.34, endPct: 0.44,
+    id: "merits-rise", nav: "2007–13", startPct: 0.35, endPct: 0.45,
     content: (
       <div className="max-w-3xl w-full">
         <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-4 opacity-0 translate-y-4 section-line">Merit List</p>
@@ -214,7 +214,7 @@ const SECTIONS: Section[] = [
     ),
   },
   {
-    id: "merits-peak", nav: "2014–17", startPct: 0.44, endPct: 0.54,
+    id: "merits-peak", nav: "2014–17", startPct: 0.45, endPct: 0.55,
     content: (
       <div className="max-w-3xl w-full">
         <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-4 opacity-0 translate-y-4 section-line">Merit List</p>
@@ -225,7 +225,7 @@ const SECTIONS: Section[] = [
     ),
   },
   {
-    id: "merits-legend", nav: "2018–27", startPct: 0.54, endPct: 0.64,
+    id: "merits-legend", nav: "2018–27", startPct: 0.55, endPct: 0.65,
     content: (
       <div className="max-w-3xl w-full">
         <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-4 opacity-0 translate-y-4 section-line">Merit List</p>
@@ -239,7 +239,7 @@ const SECTIONS: Section[] = [
     ),
   },
   {
-    id: "quote", nav: "Words", startPct: 0.64, endPct: 0.72,
+    id: "quote", nav: "Words", startPct: 0.65, endPct: 0.73,
     content: (
       <div className="max-w-3xl text-center">
         <div className="opacity-0 translate-y-6 section-line">
@@ -251,7 +251,7 @@ const SECTIONS: Section[] = [
     ),
   },
   {
-    id: "alterego", nav: "Alter Ego", startPct: 0.72, endPct: 0.8,
+    id: "alterego", nav: "Alter Ego", startPct: 0.73, endPct: 0.81,
     content: (
       <div className="max-w-2xl">
         <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-4 opacity-0 translate-y-4 section-line">Alter Ego</p>
@@ -262,7 +262,7 @@ const SECTIONS: Section[] = [
     ),
   },
   {
-    id: "lastdance", nav: "Last Dance", startPct: 0.8, endPct: 0.9,
+    id: "lastdance", nav: "Last Dance", startPct: 0.81, endPct: 0.91,
     content: (
       <div className="max-w-2xl text-center">
         <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-6 opacity-0 translate-y-4 section-line">The Last Dance</p>
@@ -278,15 +278,15 @@ const SECTIONS: Section[] = [
     ),
   },
   {
-    id: "contact", nav: "Contact", startPct: 0.9, endPct: 1,
+    id: "contact", nav: "Contact", startPct: 0.91, endPct: 1,
     content: (
       <div className="text-center max-w-xl mx-auto">
         <p className="text-[11px] sm:text-sm tracking-[0.35em] uppercase text-[var(--gold)]/80 mb-4 opacity-0 translate-y-4 section-line">Contact</p>
         <h2 className="font-[var(--font-heading)] text-[clamp(2rem,5vw,4.5rem)] font-light leading-tight mb-10 opacity-0 translate-y-6 section-line">Christian André <em className="italic">Pettersen</em></h2>
         <div className="space-y-5 opacity-0 translate-y-4 section-line">
           <a href="mailto:CAP@alterego.no" className="block font-[var(--font-heading)] text-2xl text-[var(--gold)] hover:text-[var(--text)] transition-colors duration-500">CAP@alterego.no</a>
-          <a href="tel:+4747865351" className="block font-sans text-base text-[var(--text)]/50 hover:text-[var(--gold)] transition-colors duration-500">+47 478 65 351</a>
-          <a href="https://www.instagram.com/capnorway/" target="_blank" rel="noopener noreferrer" className="block font-sans text-base text-[var(--text)]/40 hover:text-[var(--gold)] transition-colors duration-500">@capnorway</a>
+          <a href="tel:+4747865351" className="block font-sans text-base text-[var(--text)]/60 hover:text-[var(--gold)] transition-colors duration-500">+47 478 65 351</a>
+          <a href="https://www.instagram.com/capnorway/" target="_blank" rel="noopener noreferrer" className="block font-sans text-base text-[var(--text)]/50 hover:text-[var(--gold)] transition-colors duration-500">@capnorway</a>
           <div className="pt-8"><CvPdfGenerator /></div>
           <p className="font-sans text-xs text-[var(--text)]/20 mt-6 tracking-widest uppercase">Alter Ego &middot; Sandnes</p>
         </div>
@@ -546,7 +546,7 @@ export default function Home() {
             const scrollTarget = midPct * (document.documentElement.scrollHeight - window.innerHeight);
             window.scrollTo({ top: scrollTarget, behavior: "smooth" });
           }}
-          className="fixed top-[36px] sm:top-[48px] left-1/2 -translate-x-1/2 z-[15] bg-transparent border-none p-3 group"
+          className="fixed top-[42px] sm:top-[54px] left-1/2 -translate-x-1/2 z-[15] bg-transparent border-none p-3 group"
           aria-label="Previous section"
         >
           <svg width="20" height="12" viewBox="0 0 20 12" fill="none" className="opacity-25 group-hover:opacity-60 transition-opacity duration-500">
@@ -564,7 +564,7 @@ export default function Home() {
             const scrollTarget = midPct * (document.documentElement.scrollHeight - window.innerHeight);
             window.scrollTo({ top: scrollTarget, behavior: "smooth" });
           }}
-          className="fixed bottom-[36px] sm:bottom-[48px] left-1/2 -translate-x-1/2 z-[15] bg-transparent border-none p-3 group"
+          className="fixed bottom-[42px] sm:bottom-[54px] left-1/2 -translate-x-1/2 z-[15] bg-transparent border-none p-3 group"
           aria-label="Next section"
         >
           <svg width="20" height="12" viewBox="0 0 20 12" fill="none" className="opacity-25 group-hover:opacity-60 transition-opacity duration-500 animate-pulse">
@@ -621,8 +621,10 @@ export default function Home() {
           <div
             key={section.id}
             data-section={section.id}
-            className={`scroll-section fixed inset-0 flex justify-center px-6 sm:px-10 md:px-20 pt-[46px] pb-[46px] sm:pt-[56px] sm:pb-[56px] z-[5] opacity-0 ${
-              section.id.startsWith("merits") ? "items-start overflow-y-auto pt-[60px] sm:pt-[72px]" : "items-center"
+            className={`scroll-section fixed inset-0 flex justify-center px-6 sm:px-10 md:px-20 z-[5] opacity-0 ${
+              section.id.startsWith("merits")
+                ? "items-start pt-[60px] sm:pt-[72px] pb-[46px] sm:pb-[56px]"
+                : "items-center pt-[46px] pb-[46px] sm:pt-[56px] sm:pb-[56px]"
             }`}
             style={{ pointerEvents: "none", willChange: "transform, opacity" }}
           >
