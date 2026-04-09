@@ -479,12 +479,20 @@ export default function Home() {
     }
   };
 
+  /* Force autoplay on mobile — iOS needs explicit .play() call */
+  const loginVideoRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    if (!unlocked && loginVideoRef.current) {
+      loginVideoRef.current.play().catch(() => {});
+    }
+  }, [unlocked]);
+
   /* ─── Login ─── */
   if (!unlocked) {
     return (
       <div className="grain">
         <div className="fixed inset-0 bg-[var(--bg)] flex items-center justify-center z-50">
-          <video className="absolute inset-0 w-full h-full object-cover opacity-[0.08]" src="/videos/christian.mp4" muted playsInline autoPlay loop />
+          <video ref={loginVideoRef} className="absolute inset-0 w-full h-full object-cover opacity-[0.12]" src="/videos/christian.mp4" muted playsInline autoPlay loop preload="auto" />
           <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg)] via-transparent to-[var(--bg)]" />
           <form onSubmit={handleSubmit} className="text-center relative z-10">
             <p className="font-sans text-[11px] tracking-[0.4em] uppercase text-[var(--gold)]/60 mb-8 fade-up">Private viewing</p>
