@@ -300,7 +300,7 @@ const PASSWORD = "bama";
 export default function Home() {
   const [unlocked, setUnlocked] = useState(false);
   const [pwInput, setPwInput] = useState("");
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [shake, setShake] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
@@ -362,6 +362,10 @@ export default function Home() {
     document.querySelectorAll(".scroll-section").forEach((el) => {
       (el as HTMLElement).style.pointerEvents = el.getAttribute("data-section") === sectionId ? "auto" : "none";
     });
+
+    // Track active index for arrows
+    const idx = SECTIONS.findIndex((s) => s.id === sectionId);
+    if (idx !== -1) setActiveIndex(idx);
   }, []);
 
   useEffect(() => {
@@ -533,57 +537,40 @@ export default function Home() {
       <div className="fixed top-0 left-0 right-0 h-[30px] sm:h-[40px] bg-black z-[90] pointer-events-none" />
       <div className="fixed bottom-0 left-0 right-0 h-[30px] sm:h-[40px] bg-black z-[90] pointer-events-none" />
 
-      {/* Mobile menu button — visible on mobile/tablet only */}
-      <button
-        onClick={() => setMenuOpen(true)}
-        className="fixed top-[30px] sm:top-[40px] left-0 z-[95] md:hidden flex flex-col gap-[5px] items-center justify-center w-12 h-12"
-        aria-label="Open menu"
-      >
-        <span className="block w-5 h-px bg-[var(--gold)]/50" />
-        <span className="block w-3.5 h-px bg-[var(--gold)]/50" />
-        <span className="block w-5 h-px bg-[var(--gold)]/50" />
-      </button>
+      {/* Arrow navigation — up arrow (hidden on first section) */}
+      {activeIndex > 0 && (
+        <button
+          onClick={() => {
+            const prev = SECTIONS[activeIndex - 1];
+            const midPct = (prev.startPct + prev.endPct) / 2;
+            const scrollTarget = midPct * (document.documentElement.scrollHeight - window.innerHeight);
+            window.scrollTo({ top: scrollTarget, behavior: "smooth" });
+          }}
+          className="fixed top-[36px] sm:top-[48px] left-1/2 -translate-x-1/2 z-[15] bg-transparent border-none p-3 group"
+          aria-label="Previous section"
+        >
+          <svg width="20" height="12" viewBox="0 0 20 12" fill="none" className="opacity-25 group-hover:opacity-60 transition-opacity duration-500">
+            <path d="M1 11L10 2L19 11" stroke="var(--gold)" strokeWidth="1" />
+          </svg>
+        </button>
+      )}
 
-      {/* Mobile menu overlay */}
-      {menuOpen && (
-        <div className="fixed inset-0 z-[95] md:hidden">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/85 backdrop-blur-sm"
-            onClick={() => setMenuOpen(false)}
-          />
-          {/* Menu content */}
-          <div className="relative z-10 flex flex-col items-center justify-center h-full gap-6">
-            {SECTIONS.map((s) => (
-              <button
-                key={s.id}
-                data-mobilenav={s.id}
-                onClick={() => {
-                  setMenuOpen(false);
-                  const midPct = (s.startPct + s.endPct) / 2;
-                  const scrollTarget = midPct * (document.documentElement.scrollHeight - window.innerHeight);
-                  setTimeout(() => {
-                    window.scrollTo({ top: scrollTarget, behavior: "smooth" });
-                  }, 100);
-                }}
-                className={`font-sans text-sm tracking-[0.25em] uppercase transition-colors duration-300 bg-transparent border-none p-2 ${
-                  activeSectionRef.current === s.id
-                    ? "text-[var(--gold)]"
-                    : "text-[var(--text)]/40"
-                }`}
-              >
-                {s.nav}
-              </button>
-            ))}
-            {/* Close */}
-            <button
-              onClick={() => setMenuOpen(false)}
-              className="mt-8 font-sans text-[10px] tracking-[0.3em] uppercase text-[var(--text)]/20 bg-transparent border-none p-2"
-            >
-              Close
-            </button>
-          </div>
-        </div>
+      {/* Arrow navigation — down arrow (hidden on last section) */}
+      {activeIndex < SECTIONS.length - 1 && (
+        <button
+          onClick={() => {
+            const next = SECTIONS[activeIndex + 1];
+            const midPct = (next.startPct + next.endPct) / 2;
+            const scrollTarget = midPct * (document.documentElement.scrollHeight - window.innerHeight);
+            window.scrollTo({ top: scrollTarget, behavior: "smooth" });
+          }}
+          className="fixed bottom-[36px] sm:bottom-[48px] left-1/2 -translate-x-1/2 z-[15] bg-transparent border-none p-3 group"
+          aria-label="Next section"
+        >
+          <svg width="20" height="12" viewBox="0 0 20 12" fill="none" className="opacity-25 group-hover:opacity-60 transition-opacity duration-500 animate-pulse">
+            <path d="M1 1L10 10L19 1" stroke="var(--gold)" strokeWidth="1" />
+          </svg>
+        </button>
       )}
 
       {/* #5 — Fade-to-black overlay between sections */}
@@ -627,12 +614,6 @@ export default function Home() {
               {s.nav}
             </button>
           ))}
-        </div>
-
-        {/* Scroll hint — mobile */}
-        <div className="fixed bottom-[max(3rem,env(safe-area-inset-bottom))] left-1/2 -translate-x-1/2 z-[10] flex flex-col items-center gap-2 md:hidden">
-          <span className="text-[9px] tracking-[0.3em] uppercase text-[var(--text)]/20 font-sans">Scroll</span>
-          <div className="w-px h-8 bg-[var(--gold)]/20 animate-pulse" />
         </div>
 
         {/* Content sections */}
