@@ -12,7 +12,7 @@ const BG = "#0a0a0a";
 const TEXT = "#f5f0e8";
 const DIM = `${TEXT}aa`;
 const FAINT = `${TEXT}55`;
-const GHOST = `${TEXT}33`;
+
 
 /* A4 at 2× for retina: 794 × 1122 px at 96dpi */
 const PAGE_W = 794;
@@ -263,18 +263,21 @@ export default function CvPdfGenerator() {
           </h2>
           <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "4px" }}>
             {[
-              { role: "Apprentice → Sous Chef", place: "Under Bocuse d'Or champion Charles Tjessem" },
-              { role: "Head Chef", place: "Spiseriet Konserthuset, Stavanger" },
-              { role: "Head Chef", place: "Mondo Restaurant, Sandnes" },
-              { role: "Culinary Director", place: "Thon Hotels" },
-              { role: "Menu & Concept Development", place: "Restaurant ATTME, Bodø" },
-              { role: "Founder & Owner", place: "Alter Ego, Sandnes — Opening 2027" },
+              { role: "Apprentice → Sous Chef", place: "Under Bocuse d'Or champion Charles Tjessem", note: "" },
+              { role: "Head Chef", place: "Spiseriet Konserthuset, Stavanger", note: "" },
+              { role: "Head Chef", place: "Mondo Restaurant, Sandnes", note: "" },
+              { role: "Culinary Director", place: "Thon Hotels", note: "" },
+              { role: "Menu & Concept Development", place: "Restaurant ATTME, Bodø", note: "" },
+              { role: "Founder & Owner", place: "Alter Ego, Sandnes — Opening 2027", note: "His own vision, finally taking shape" },
             ].map((item, i) => (
-              <p key={i} style={{ fontSize: "10.5px", color: `${TEXT}bb`, margin: 0 }}>
-                <span style={{ color: GOLD }}>{item.role}</span>
-                <span style={{ color: `${TEXT}33`, margin: "0 8px" }}>—</span>
-                {item.place}
-              </p>
+              <div key={i} style={{ margin: 0 }}>
+                <p style={{ fontSize: "10.5px", color: `${TEXT}bb`, margin: 0 }}>
+                  <span style={{ color: GOLD }}>{item.role}</span>
+                  <span style={{ color: `${TEXT}33`, margin: "0 8px" }}>—</span>
+                  {item.place}
+                </p>
+                {item.note && <p style={{ fontSize: "8.5px", color: `${TEXT}44`, fontStyle: "italic", margin: "2px 0 0" }}>{item.note}</p>}
+              </div>
             ))}
           </div>
 
