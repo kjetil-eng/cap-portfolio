@@ -557,10 +557,21 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Nav */}
+        {/* Nav — clickable */}
         <div className="fixed right-6 top-1/2 -translate-y-1/2 z-[10] hidden md:flex flex-col gap-2 items-end">
           {SECTIONS.map((s) => (
-            <div key={s.id} data-nav={s.id} className="text-[9px] tracking-[0.2em] uppercase text-[var(--text)]/15 transition-all duration-700 font-sans">{s.nav}</div>
+            <button
+              key={s.id}
+              data-nav={s.id}
+              onClick={() => {
+                const midPct = (s.startPct + s.endPct) / 2;
+                const scrollTarget = midPct * (document.documentElement.scrollHeight - window.innerHeight);
+                window.scrollTo({ top: scrollTarget, behavior: "smooth" });
+              }}
+              className="text-[9px] tracking-[0.2em] uppercase text-[var(--text)]/15 transition-all duration-700 font-sans hover:text-[var(--gold)]/60 cursor-pointer bg-transparent border-none p-0"
+            >
+              {s.nav}
+            </button>
           ))}
         </div>
 
